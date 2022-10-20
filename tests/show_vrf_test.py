@@ -115,9 +115,6 @@ Vrf103  Ethernet4
         assert ('vrf_name', 'Vrf103') not in db.cfgdb.get_table('VLAN_SUB_INTERFACE')['Po0002.101']
         assert result.output == expected_output_unbind
 
-
-        #Bind click CLI cannot be tested as it tries to connecte to statedb
-        #for verification of all IP address delete before applying new vrf configuration
         jsonfile_config = os.path.join(mock_db_path, "config_db")
         dbconnector.dedicated_dbs['CONFIG_DB'] = jsonfile_config
 
