@@ -98,7 +98,7 @@ Vrf103  Ethernet4
         result = runner.invoke(config.config.commands["interface"].commands["vrf"].commands["unbind"], ["Eth36.10"], obj=obj)
         print(result.exit_code, result.output)
         assert result.exit_code == 0
-        assert ('vrf_name', 'Vrf102') not in db.cfgdb.get_table('VLAN_SUB_INTERFACE')['Eth32.10']
+        assert ('vrf_name', 'Vrf102') not in db.cfgdb.get_table('VLAN_SUB_INTERFACE')['Eth36.10']
         assert result.output == expected_output_unbind
 
         expected_output_unbind = "Interface Ethernet0.10 IPv4 disabled and address(es) removed due to unbinding VRF.\n"
