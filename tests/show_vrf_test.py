@@ -170,10 +170,10 @@ Vrf103  Ethernet4
         dbconnector.dedicated_dbs['CONFIG_DB'] = jsonfile_config
         runner = CliRunner()
         db = Db()   
-        obj = {'config_db':db.cfgdb}
+        vrf_obj = {'config_db':db.cfgdb, 'namespace':db.db.namespace}
 
         expected_output_bind = "Interface Ethernet8 IPv4 disabled and address(es) removed due to binding VRF Vrf101.\n"
-        result = runner.invoke(config.config.commands["interface"].commands["vrf"].commands["bind"], ["Ethernet8", "Vrf101"], obj=obj)
+        result = runner.invoke(config.config.commands["interface"].commands["vrf"].commands["bind"], ["Ethernet8", "Vrf101"], obj=vrf_obj)
         print(result.exit_code, result.output)
         assert result.exit_code == 0
         assert ('Vrf101') in db.cfgdb.get_table('INTERFACE')['Ethernet8']['vrf_name']
