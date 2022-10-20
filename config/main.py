@@ -4976,6 +4976,8 @@ def bind(ctx, interface_name, vrf_name):
     else:
         config_db.set_entry(table_name, interface_name, {"vrf_name": vrf_name})
 
+    click.echo("Interface {} IPv4 disabled and address(es) removed due to binding VRF {}.".format(interface_name, vrf_name))
+
 #
 # 'unbind' subcommand
 #
@@ -5011,6 +5013,8 @@ def unbind(ctx, interface_name):
         config_db.set_entry(table_name, interface_name, subintf_entry)
     else:
         config_db.set_entry(table_name, interface_name, None)
+    
+    click.echo("Interface {} IPv4 disabled and address(es) removed due to unbinding VRF.".format(interface_name))
 
 #
 # 'ipv6' subgroup ('config interface ipv6 ...')
@@ -5171,7 +5175,7 @@ def del_vrf(ctx, vrf_name):
     """Del vrf"""
     config_db = ctx.obj['config_db']
     if not vrf_name.startswith("Vrf") and not (vrf_name == 'mgmt') and not (vrf_name == 'management'):
-        ctx.fail("'vrf_name' is not start with Vrf, mgmt or management!")
+        ctx.fail("'vrf_name' does not start with Vrf, mgmt or management!")
     if len(vrf_name) > 15:
         ctx.fail("'vrf_name' is too long!")
     syslog_table = config_db.get_table("SYSLOG_SERVER")
@@ -5185,7 +5189,7 @@ def del_vrf(ctx, vrf_name):
     else:
         del_interface_bind_to_vrf(config_db, vrf_name)
         config_db.set_entry('VRF', vrf_name, None)
-
+        click.echo("VRF {} deleted and all assosiated IPv4 addresses removed".format(vrf_name))
 
 @vrf.command('add_vrf_vni_map')
 @click.argument('vrfname', metavar='<vrf-name>', required=True, type=str)
